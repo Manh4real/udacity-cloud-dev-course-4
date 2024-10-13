@@ -1,0 +1,87 @@
+version: 2.1
+branches:
+  only:
+    - main
+orbs:
+  # node: circleci/node@6.2.0
+  # eb: circleci/aws-elastic-beanstalk@2.0.1
+  # aws-cli: circleci/aws-cli@3.1.1
+jobs:
+  build:
+    docker:
+      - image: "cimg/node:12.13"
+    steps:
+      # - node/install
+      - checkout
+      # - aws-cli/setup
+      # - eb/setup
+      - setup_remote_docker
+      - run:
+          name: Publish Docker image
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+            docker-compose -f docker-compose-build.yaml build --parallel
+            docker-compose push
+
+      # - run:
+      #     name: Configure AWS Config
+      #     command: |
+      #       aws configure set region $AWS_DEFAULT_REGION
+      #       aws configure set output json
+      # - run:
+      #     name: Configure AWS Credentials
+      #     command: |
+      #       aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+      #       aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+      # - run:
+      #     name: udagram-api-feed - Set environment variables in EB
+      #     command: |
+      #       cd udagram-api-feed
+      #       eb init udagram-api-feed --region $AWS_DEFAULT_REGION --platform "64bit Amazon Linux 2 v5.6.2 running Node.js 12"
+      #       eb use udagram-api-feed-dev
+      #       eb setenv AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+
+      # - run:
+      #     name: udagram-api-user - Set environment variables in EB
+      #     command: |
+      #       cd udagram-api-user
+      #       eb init udagram-api-user --region $AWS_DEFAULT_REGION --platform "64bit Amazon Linux 2 v5.6.2 running Node.js 12"
+      #       eb use udagram-api-user-dev
+      #       eb setenv AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+
+      # - run:
+      #     name: Frontend Install
+      #     command: |
+      #       npm run frontend:install
+      # - run:
+      #     name: Backend Install - Feed
+      #     command: |
+      #       npm run backend:feed:install
+      # - run:
+      #     name: Backend Install - User
+      #     command: |
+      #       npm run backend:user:install
+      # - run:
+      #     name: Frontend Build
+      #     command: |
+      #       npm run frontend:build
+      # - run:
+      #     name: Backend Build - Feed
+      #     command: |
+      #       npm run backend:feed:build
+      # - run:
+      #     name: Backend Build - User
+      #     command: |
+      #       npm run backend:user:build
+      # - run:
+      #     name: Deploy FE
+      #     command: |
+      #       npm run frontend:deploy
+      # - run:
+      #     name: Deploy BE - Feed
+      #     command: |
+      #       npm run backend:feed:deploy
+      # - run:
+      #     name: Deploy BE - User
+      #     command: |
+      #       npm run backend:user:deploy
