@@ -15,4 +15,4 @@ services:
   frontend:
     build:
       context: ./udagram-frontend
-    image: manh4real/udagram-frontend:local
+    image: manh4real/udagram-frontend

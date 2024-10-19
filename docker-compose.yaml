@@ -7,9 +7,9 @@ services:
       - 8080:8080
     restart: always
     depends_on:
-      - backend-user
-      - backend-feed
-  backend-user:
+      - udagram-api-user
+      - udagram-api-feed
+  udagram-api-user:
     build: ./udagram-api-user
     image: manh4real/udagram-api-user
     environment:
@@ -21,7 +21,7 @@ services:
       AWS_PROFILE: $AWS_PROFILE
       AWS_BUCKET: $AWS_BUCKET
       JWT_SECRET: $JWT_SECRET
-  backend-feed:
+  udagram-api-feed:
     build: ./udagram-api-feed
     image: manh4real/udagram-api-feed
     volumes:
