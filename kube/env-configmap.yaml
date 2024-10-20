@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env-configmap
+data:
+  NODE_ENV: "production"
+  # frontend endpoint
+  URL: "http://localhost:8100"
