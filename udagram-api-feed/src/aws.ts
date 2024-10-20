@@ -4,6 +4,7 @@ import {config} from './config/config';
 
 // Configure AWS
 const credentials = new AWS.SharedIniFileCredentials({profile: config.aws_profile});
+console.log({ config, credentials, key: process.env.AWS_ACCESS_KEY_ID })
 AWS.config.credentials = credentials;
 
 export const s3 = new AWS.S3({
